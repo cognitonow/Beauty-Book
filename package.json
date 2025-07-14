@@ -1,5 +1,5 @@
 {
-  "name": "profilematch-beauty",
+  "name": "beauty-book",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "react": "^19.1.0",
+    "react-dom/client": "^19.1.0",
+    "framer-motion": "^12.23.5",
     "react-dom": "^19.1.0",
-    "react-dom/client": "18.2.0",
-    "framer-motion": "11.1.1"
+    "lucide-react": "^0.417.0",
+    "luc": "^0.3.1",
+    "@google/genai": "latest"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

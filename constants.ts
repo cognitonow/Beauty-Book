@@ -1,122 +1,181 @@
+import { ProfessionalProfile, SocialPost, Service } from './types';
 
-import { ProfessionalProfile } from './types';
+export const specialties = [
+  "Nail Artistry",
+  "Hair Colorist & Stylist",
+  "Lash & Brow Expert",
+  "Makeup Artist",
+  "Braid Specialist",
+  "Skincare & Facials",
+  "Waxing Services",
+  "Massage Therapy"
+];
+
+export const SERVICE_CATEGORIES = ['Nails', 'Hair', 'Lashes & Brows', 'Makeup', 'Skincare', 'Waxing', 'Massage'];
+
+export const PREDEFINED_SERVICES: Service[] = [
+    { name: 'Gel Manicure', price: 55, category: 'Nails' },
+    { name: 'Classic Pedicure', price: 65, category: 'Nails' },
+    { name: 'Balayage', price: 250, category: 'Hair' },
+    { name: 'Haircut & Style', price: 85, category: 'Hair' },
+    { name: 'Classic Lash Set', price: 120, category: 'Lashes & Brows' },
+    { name: 'Brow Lamination', price: 80, category: 'Lashes & Brows' },
+    { name: 'Event Makeup', price: 150, category: 'Makeup' },
+    { name: 'Deep Cleansing Facial', price: 130, category: 'Skincare' },
+];
+
+
+export const DUBLIN_LOCATIONS = [
+    "Dublin 1 (D01)",
+    "Dublin 2 (D02)",
+    "Dublin 3 (D03)",
+    "Dublin 4 (D04)",
+    "Dublin 5 (D05)",
+    "Dublin 6 (D06)",
+    "Dublin 6W (D6W)",
+    "Dublin 7 (D07)",
+    "Dublin 8 (D08)",
+    "Dublin 9 (D09)",
+    "Dublin 10 (D10)",
+    "Dublin 11 (D11)",
+    "Dublin 12 (D12)",
+    "Dublin 13 (D13)",
+    "Dublin 14 (D14)",
+    "Dublin 15 (D15)",
+    "Dublin 16 (D16)",
+    "Dublin 17 (D17)",
+    "Dublin 18 (D18)",
+    "Dublin 20 (D20)",
+    "Dublin 22 (D22)",
+    "Dublin 24 (D24)",
+    "County Dublin (Co. Dublin)"
+];
+
+export const EXTRA_SOCIAL_POSTS: SocialPost[] = [
+    { id: 101, imageUrl: 'https://images.unsplash.com/photo-1522338140262-f46399516618?q=80&w=400', caption: 'Fresh set for a special occasion.' },
+    { id: 102, imageUrl: 'https://images.unsplash.com/photo-1621294793836-3485e78a6e45?q=80&w=400', caption: 'Loved creating this dimensional color.' },
+    { id: 103, imageUrl: 'https://images.unsplash.com/photo-1631242039945-f39b1a7d7b1a?q=80&w=400', caption: 'Wispy classics are always a good idea.' },
+    { id: 104, imageUrl: 'https://images.unsplash.com/photo-1590151125212-32f22b826543?q=80&w=400', caption: 'Bridal trial success! So excited for the big day.' },
+    { id: 105, imageUrl: 'https://images.unsplash.com/photo-1625997289454-1b913531c19b?q=80&w=400', caption: 'Protective styles for summer.' },
+    { id: 106, imageUrl: 'https://images.unsplash.com/photo-1580242233157-3a13063b4690?q=80&w=400', caption: 'The power of a good haircut.' }
+];
 
 export const PROFILES: ProfessionalProfile[] = [
   {
-    id: 1,
-    name: 'Chloe Monet',
+    id: '1',
+    name: 'Jasmine Lee',
     specialty: 'Nail Artistry',
-    location: 'Downtown, Los Angeles',
-    distance: 2.5,
-    bio: 'Award-winning nail artist with 10+ years of experience in gel, acrylic, and intricate hand-painted designs. My studio is a clean, relaxing space where creativity flows. I only use high-quality, vegan products.',
-    profileImage: 'https://picsum.photos/id/1027/800/1200',
+    bio: 'Award-winning nail artist with a passion for intricate designs and healthy nails. From classic manicures to detailed gel-x art, I create tiny masterpieces. Based in downtown, ready to make your nail dreams come true!',
+    location: 'Dublin 1 (D01)',
+    profileImage: 'https://images.unsplash.com/photo-1522338242285-15a10404f263?q=80&w=800',
     availability: 'Available Now',
-    services: [
-      { name: 'Classic Manicure', price: 40, duration: 45 },
-      { name: 'Gel-X Extensions', price: 95, duration: 120 },
-      { name: 'Intricate Nail Art (per nail)', price: 15, duration: 20 },
-      { name: 'Builder Gel Overlay', price: 70, duration: 90 },
-    ],
-    socialFeed: [
-      { id: 's1-1', imageUrl: 'https://picsum.photos/id/10/400/400', caption: 'Chrome dreams ✨' },
-      { id: 's1-2', imageUrl: 'https://picsum.photos/id/22/400/400', caption: 'Pastel perfection' },
-      { id: 's1-3', imageUrl: 'https://picsum.photos/id/25/400/400', caption: 'A little sparkle never hurt nobody' },
-    ],
+    profileEmbedUrl: 'https://www.tiktok.com/@vbeautypure/video/7343997426145332522',
     reviews: [
-      { author: 'Jessica L.', rating: 5, comment: 'Chloe is a true artist! My nails have never looked better.' },
-      { author: 'Samantha P.', rating: 5, comment: 'The best nail tech in LA, hands down. Her studio is so cute too!' },
+      { author: 'Chloe T.', rating: 5, comment: 'Jasmine is a true artist! My nails have never looked better.' },
+      { author: 'Brenda M.', rating: 5, comment: 'Such a clean and professional setup. Loved the experience.' },
     ],
+    services: [
+      { name: 'Gel Manicure', price: 55, duration: 60, category: 'Nails' },
+      { name: 'Nail Art (per nail)', price: 10, duration: 15, category: 'Nails' },
+      { name: 'Gel-X Extensions', price: 90, duration: 120, category: 'Nails' },
+    ],
+    tiktokUrls: [
+        'https://www.tiktok.com/@vbeautypure/video/7343997426145332522',
+        'https://www.tiktok.com/@sansungnails/video/7354999954030431534',
+        'https://www.tiktok.com/@nailartbyjen/video/7325519842571259179',
+    ],
+    instagramEmbedUrls: [
+        'https://www.instagram.com/p/C2A9g2kRP3k/',
+        'https://www.instagram.com/p/C8R8X-yS4AS/',
+        'https://www.instagram.com/p/C5p1f2etxAq/'
+    ],
+    socials: {
+        instagram: '@jasmine.nails',
+        tiktok: '@jasminenailart',
+    },
+    isProfileComplete: true,
+    travelPolicy: {
+        locations: ['Dublin 1 (D01)', 'Dublin 2 (D02)', 'Dublin 7 (D07)'],
+    }
   },
   {
-    id: 2,
+    id: '2',
     name: 'Marco Reyes',
     specialty: 'Hair Colorist & Stylist',
-    location: 'Beverly Hills, CA',
-    distance: 8.1,
-    bio: 'Specializing in balayage, vivid colors, and precision cuts. I believe your hair is your best accessory. Let\'s work together to create a look that expresses your unique personality.',
-    profileImage: 'https://picsum.photos/id/1005/800/1200',
-    availability: 'Unavailable',
-    services: [
-      { name: 'Balayage', price: 350, duration: 240 },
-      { name: 'Full Highlights', price: 280, duration: 210 },
-      { name: 'Haircut & Style', price: 120, duration: 75 },
-    ],
-    socialFeed: [
-      { id: 's2-1', imageUrl: 'https://picsum.photos/id/1011/400/400', caption: 'From brunette to fiery copper' },
-      { id: 's2-2', imageUrl: 'https://picsum.photos/id/1025/400/400', caption: 'Lived-in blonde is always in.' },
-      { id: 's2-3', imageUrl: 'https://picsum.photos/id/103/400/400', caption: 'Sharp bobs and curtain bangs' },
-    ],
+    bio: 'Expert in balayage, vivid colors, and precision cuts. I believe your hair is the ultimate accessory. With 10+ years of experience, I am here to help you achieve your hair goals in a relaxed, private studio setting.',
+    location: 'Dublin 6 (D06)',
+    profileImage: 'https://images.unsplash.com/photo-1599387791054-e4ab1848c668?q=80&w=800',
+    availability: 'Available Now',
+    profileEmbedUrl: 'https://www.instagram.com/p/C8R-5zcyvcc/',
     reviews: [
-      { author: 'Emily R.', rating: 5, comment: 'Marco transformed my hair! He listened to exactly what I wanted and exceeded my expectations.' },
+      { author: 'Alex D.', rating: 5, comment: 'Marco transformed my hair! The color is stunning.' },
+      { author: 'Samantha P.', rating: 5, comment: 'Finally found a stylist who listens. Highly recommend!' },
     ],
+    services: [
+      { name: 'Balayage', price: 250, duration: 180, category: 'Hair' },
+      { name: 'Haircut & Style', price: 85, duration: 60, category: 'Hair' },
+      { name: 'Vivid Color Session', price: 300, duration: 240, category: 'Hair' },
+    ],
+    tiktokUrls: [
+        'https://www.tiktok.com/@bradmondonyc/video/7345633519875149102',
+        'https://www.tiktok.com/@urbanthesalon/video/7336398935395650862',
+    ],
+    instagramEmbedUrls: [
+        'https://www.instagram.com/p/C8R-5zcyvcc/',
+        'https://www.instagram.com/p/C8N1psESCbE/',
+    ],
+    socials: {
+        instagram: '@marco.reyes.hair',
+        tiktok: '@marcoreyeshair',
+    },
+    isProfileComplete: true,
   },
   {
-    id: 3,
-    name: 'Aisha Khan',
+    id: '3',
+    name: 'Isabelle Chen',
     specialty: 'Lash & Brow Expert',
-    location: 'Silver Lake, Los Angeles',
-    distance: 4.2,
-    bio: 'Certified in classic, hybrid, and volume lash extensions, as well as brow lamination and tinting. My goal is to enhance your natural beauty and simplify your morning routine!',
-    profileImage: 'https://picsum.photos/id/1012/800/1200',
+    bio: 'Certified in lash extensions, lifts, and brow lamination. My goal is to enhance your natural beauty and simplify your morning routine. Wake up feeling flawless!',
+    location: 'Dublin 4 (D04)',
+    profileImage: 'https://images.unsplash.com/photo-1532171888219-699799c43831?q=80&w=800',
     availability: 'Available Now',
-    services: [
-      { name: 'Volume Lash Full Set', price: 250, duration: 150 },
-      { name: 'Brow Lamination & Tint', price: 110, duration: 60 },
-      { name: 'Lash Lift & Tint', price: 95, duration: 75 },
-    ],
-    socialFeed: [
-      { id: 's3-1', imageUrl: 'https://picsum.photos/id/201/400/400', caption: 'Fluffy volumes for this beauty' },
-      { id: 's3-2', imageUrl: 'https://picsum.photos/id/211/400/400', caption: 'The power of a good brow lami!' },
-      { id: 's3-3', imageUrl: 'https://picsum.photos/id/212/400/400', caption: 'Natural but noticeable.' },
-    ],
     reviews: [
-      { author: 'Maria G.', rating: 5, comment: 'Aisha is the lash queen! My lashes are always perfect and last so long.' },
+      { author: 'Megan R.', rating: 5, comment: 'My lashes look so natural yet full. Isabelle is amazing.' },
+      { author: 'Jessica B.', rating: 5, comment: 'Obsessed with my laminated brows! Game changer.' },
     ],
+    services: [
+      { name: 'Classic Lash Set', price: 120, duration: 120, category: 'Lashes & Brows' },
+      { name: 'Lash Lift & Tint', price: 95, duration: 75, category: 'Lashes & Brows' },
+      { name: 'Brow Lamination', price: 80, duration: 60, category: 'Lashes & Brows' },
+    ],
+    tiktokUrls: [
+        'https://www.tiktok.com/@cclashes/video/7331998993204202798'
+    ],
+    instagramEmbedUrls: [],
+    isProfileComplete: false,
   },
-  {
-    id: 4,
-    name: 'Jasmine Lee',
+    {
+    id: '4',
+    name: 'David Kim',
     specialty: 'Makeup Artist',
-    location: 'Hollywood, CA',
-    distance: 6.8,
-    bio: 'Professional makeup artist specializing in bridal, editorial, and red carpet looks. Let me help you feel confident and beautiful for your special occasion.',
-    profileImage: 'https://picsum.photos/id/1013/800/1200',
+    bio: "From natural glow to full glam for special events, I'm your artist. With a background in editorial and bridal makeup, I use top-tier products to create a look that lasts and photographs beautifully.",
+    location: 'Dublin 2 (D02)',
+    profileImage: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?q=80&w=800',
     availability: 'Available Now',
-    services: [
-        { name: 'Full Glam Makeup', price: 150, duration: 90 },
-        { name: 'Bridal Makeup Trial', price: 100, duration: 120 },
-        { name: 'Natural "No-Makeup" Look', price: 80, duration: 60 },
-    ],
-    socialFeed: [
-        { id: 's4-1', imageUrl: 'https://picsum.photos/id/301/400/400', caption: 'Soft glam for a wedding guest' },
-        { id: 's4-2', imageUrl: 'https://picsum.photos/id/302/400/400', caption: 'Smokey eye perfection' },
-        { id: 's4-3', imageUrl: 'https://picsum.photos/id/304/400/400', caption: 'Glowing, dewy skin is always in.' },
-    ],
     reviews: [
-        { author: 'Olivia B.', rating: 5, comment: 'Jasmine did my wedding makeup and it was flawless! It lasted all night.' },
+      { author: 'Olivia W.', rating: 5, comment: 'David did my wedding makeup and it was flawless all night!'},
+      { author: 'Hannah S.', rating: 5, comment: 'Felt so confident after my session. He really knows how to highlight your features.' },
     ],
-  },
-  {
-    id: 5,
-    name: 'Simone Adebayo',
-    specialty: 'Braid Specialist',
-    location: 'Inglewood, CA',
-    distance: 12.3,
-    bio: 'Expert in a wide range of braiding styles including knotless, box braids, cornrows, and twists. I focus on protective styling to promote healthy hair growth.',
-    profileImage: 'https://picsum.photos/id/1014/800/1200',
-    availability: 'Unavailable',
     services: [
-        { name: 'Medium Knotless Box Braids', price: 280, duration: 360 },
-        { name: 'Stitch Cornrows (6-8)', price: 90, duration: 120 },
-        { name: 'Passion Twists', price: 250, duration: 300 },
+      { name: 'Event Makeup', price: 150, duration: 90, category: 'Makeup' },
+      { name: 'Bridal Makeup Trial', price: 100, duration: 90, category: 'Makeup' },
+      { name: 'Makeup Lesson', price: 200, duration: 120, category: 'Makeup' },
     ],
-    socialFeed: [
-        { id: 's5-1', imageUrl: 'https://picsum.photos/id/401/400/400', caption: 'Classic box braids are timeless.' },
-        { id: 's5-2', imageUrl: 'https://picsum.photos/id/402/400/400', caption: 'Clean parts are my specialty.' },
-        { id: 's5-3', imageUrl: 'https://picsum.photos/id/404/400/400', caption: 'Beautiful passion twists for the summer.' },
+    tiktokUrls: [
+        'https://www.tiktok.com/@mikaylanogueira/video/7354492348332150059'
     ],
-    reviews: [
-        { author: 'Keisha M.', rating: 5, comment: 'Simone is fast, professional, and my braids are always neat and beautiful.' },
+    instagramEmbedUrls: [
+        'https://www.instagram.com/p/C8M3BF8xmO1/'
     ],
+    isProfileComplete: true,
   },
 ];

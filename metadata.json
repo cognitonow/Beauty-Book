@@ -1,6 +1,6 @@
 {
-  "name": "ProfileMatch Beauty",
-  "description": "A 'Tinder-like' discovery app for beauty services. Clients can find and book beauty professionals based on location, services, and a sophisticated matching algorithm. Visuals are sourced exclusively from professionals' integrated social media feeds.",
+  "name": "Beauty Book",
+  "description": "Beauty Book",
   "requestFramePermissions": [],
   "prompt": ""
 }

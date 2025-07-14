@@ -1,32 +1,49 @@
+export interface Review {
+  author: string;
+  rating: number;
+  comment: string;
+}
 
 export interface Service {
   name: string;
   price: number;
-  duration: number; // in minutes
+  duration?: number; // in minutes
+  category?: string;
 }
 
 export interface SocialPost {
-  id: string;
+  id: number;
   imageUrl: string;
   caption: string;
 }
 
-export interface Review {
-  author: string;
-  rating: number; // out of 5
-  comment: string;
+export interface TravelPolicy {
+  locations: string[];
 }
 
 export interface ProfessionalProfile {
-  id: number;
+  id: string;
   name: string;
-  specialty: string;
-  location: string;
-  distance: number; // in km
+  specialty: "Nail Artistry" | "Hair Colorist & Stylist" | "Lash & Brow Expert" | "Makeup Artist" | "Braid Specialist";
   bio: string;
-  services: Service[];
-  socialFeed: SocialPost[];
-  reviews: Review[];
+  location: string;
   profileImage: string;
   availability: 'Available Now' | 'Unavailable';
+  reviews: Review[];
+  services: Service[];
+  predefinedServices?: string[];
+  tiktokUrls?: string[];
+  instagramEmbedUrls?: string[];
+  instagramFeed?: SocialPost[];
+  socials?: {
+    instagram?: string;
+    tiktok?: string;
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    website?: string;
+  }
+  travelPolicy?: TravelPolicy;
+  isProfileComplete?: boolean;
+  profileEmbedUrl?: string;
 }
