@@ -1,3 +1,8 @@
+export interface Review {
+  author: string;
+  rating: number;
+  comment: string;
+}
 
 export interface Service {
   name: string;
@@ -6,27 +11,21 @@ export interface Service {
 }
 
 export interface SocialPost {
-  id: string;
+  id: number;
   imageUrl: string;
   caption: string;
 }
 
-export interface Review {
-  author: string;
-  rating: number; // out of 5
-  comment: string;
-}
-
 export interface ProfessionalProfile {
-  id: number;
+  id: string;
   name: string;
-  specialty: string;
+  specialty: "Nail Artistry" | "Hair Colorist & Stylist" | "Lash & Brow Expert" | "Makeup Artist" | "Braid Specialist";
+  bio: string;
   location: string;
   distance: number; // in km
-  bio: string;
-  services: Service[];
-  socialFeed: SocialPost[];
-  reviews: Review[];
   profileImage: string;
   availability: 'Available Now' | 'Unavailable';
+  reviews: Review[];
+  services: Service[];
+  socialFeed: SocialPost[];
 }
