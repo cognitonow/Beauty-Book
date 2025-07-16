@@ -29,3 +29,16 @@ export interface ProfessionalProfile {
   services: Service[];
   socialFeed: SocialPost[];
 }
+
+export interface McpServer {
+  command: string;
+  args: string[];
+  env: Record<string, string>;
+  cwd: string;
+  timeout: number;
+  trust: boolean;
+}
+
+export interface McpServers {
+  [serverName: string]: McpServer;
+}
