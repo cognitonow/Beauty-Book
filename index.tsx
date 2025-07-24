@@ -332,8 +332,22 @@ const App = () => {
     );
 };
 
+
+// New error logging code
 const container = document.getElementById('root');
 if (container) {
-    const root = createRoot(container);
-    root.render(<App />);
+    try {
+        const root = createRoot(container);
+        root.render(<App />);
+    } catch (error) {
+        console.error("Failed to start the application:", error);
+        // Display a user-friendly error message on the screen
+        container.innerHTML = `
+            <div style="padding: 20px; text-align: center; font-family: sans-serif;">
+                <h1>Application Error</h1>
+                <p>Something went wrong and the application could not start. Please check the console for more details.</p>
+                <p><b>Error:</b> ${error.message}</p>
+            </div>
+        `;
+    }
 }
