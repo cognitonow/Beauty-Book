@@ -1,0 +1,24 @@
+body {
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8fafc; /* slate-50 */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.chat-bubble-sent {
+    @apply bg-rose-500 text-white rounded-l-xl rounded-t-xl;
+}
+
+.chat-bubble-received {
+    @apply bg-slate-200 text-slate-800 rounded-r-xl rounded-t-xl;
+}
