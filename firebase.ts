@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration, taken from the prompt.
 const firebaseConfig = {
-  apiKey: "AIzaSyD6fLkmBeuVerhtXvIdZGOjWwltxRCSe2U",
-  authDomain: "beauty-book-375d5.firebaseapp.com",
-  projectId: "beauty-book-375d5",
-  storageBucket: "beauty-book-375d5.firebasestorage.app",
-  messagingSenderId: "208401477894",
-  appId: "1:208401477894:web:7d02b5c2752b44d0116e87",
-  measurementId: "G-FQNHHG0YDN"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
