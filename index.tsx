@@ -14,7 +14,7 @@ import { ProfessionalProfile, Client, Booking, Service, Message, Notification } 
 import { PROFILES, MOCK_CLIENT } from './constants';
 import { auth, db } from './firebase';
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword, User } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firestore';
 
 
 type View = 'home' | 'login' | 'signup' | 'client' | 'professional' | 'onboarding';
@@ -81,7 +81,7 @@ const App = () => {
             await signInWithEmailAndPassword(auth, email, password);
             return { success: true };
         } catch (error: any) {
-             let message = "An unexpected error occurred. Please try again.";
+            let message = "An unexpected error occurred. Please try again.";
             if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
                  message = "Invalid email or password. Please try again.";
             } else if (error.code === 'auth/too-many-requests') {
@@ -92,6 +92,7 @@ const App = () => {
     };
     
     const handleSignUpComplete = async (newProfile: ProfessionalProfile) => {
+        console.log("Saving profile from handleSignUpComplete:", newProfile);
         try {
             await setDoc(doc(db, "professionals", newProfile.id), newProfile, { merge: true });
             // onAuthStateChanged will handle login, but we can set state here to be faster
@@ -268,14 +269,14 @@ const App = () => {
     const renderView = () => {
         if (isLoadingAuth) {
              return (
-                <div className="flex items-center justify-center h-screen bg-slate-50 text-slate-500">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-rose-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>Loading...</span>
-                </div>
-            );
+                 <div className="flex items-center justify-center h-screen bg-slate-50 text-slate-500">
+                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-rose-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                     </svg>
+                     <span>Loading...</span>
+                 </div>
+             );
         }
 
         switch (view) {
@@ -283,20 +284,20 @@ const App = () => {
                 return <LoginPage onLogin={handleLoginByCredentials} onNavigateToSignUp={() => setView('signup')} />;
             case 'signup':
                 return <SignUpWizard isOnboardingOnly={false} onComplete={handleSignUpComplete} onNavigateToLogin={() => setView('login')} onViewLiveProfile={handleViewLiveProfile} />;
-             case 'onboarding':
+            case 'onboarding':
                 return <SignUpWizard isOnboardingOnly={true} initialData={loggedInProfessional} onComplete={handleSignUpComplete} onNavigateToLogin={() => setView('login')} onViewLiveProfile={handleViewLiveProfile} />;
             case 'client':
                  if (currentUser) {
-                    return <ClientView 
-                        currentUser={currentUser as Client}
-                        onSwitchRole={handleSwitchRole} 
-                        bookings={bookings.filter(b => b.clientId === currentUser.id)}
-                        notifications={notifications.filter(n => n.userId === currentUser.id)}
-                        onBook={handleCreateBooking}
-                        onSendMessage={handleSendMessage}
-                        onMarkRead={handleMarkNotificationsAsRead}
-                        onLogout={handleLogout}
-                    />;
+                     return <ClientView 
+                         currentUser={currentUser as Client}
+                         onSwitchRole={handleSwitchRole} 
+                         bookings={bookings.filter(b => b.clientId === currentUser.id)}
+                         notifications={notifications.filter(n => n.userId === currentUser.id)}
+                         onBook={handleCreateBooking}
+                         onSendMessage={handleSendMessage}
+                         onMarkRead={handleMarkNotificationsAsRead}
+                         onLogout={handleLogout}
+                     />;
                  }
                  // if no current user, but trying to access client view, redirect to home.
                  setView('home');
