@@ -21,7 +21,7 @@ const WIZARD_STEPS_CONFIG = [
   { step: 7, title: 'Complete', isInterstitial: true },
 ];
 
-const StepHeader = ({ title, subtitle }) => (
+const StepHeader = ({ title, subtitle }: { title: string, subtitle: string }) => (
     <div className="mb-8 text-center">
         <h2 className="text-3xl font-bold text-slate-800">{title}</h2>
         <p className="text-slate-500 mt-1">{subtitle}</p>
@@ -97,7 +97,7 @@ const WizardSidebar = ({ currentStep, steps }: { currentStep: number, steps: any
     );
 };
 
-const SearchableDropdown = ({ options, selected, onSelect, placeholder }) => {
+const SearchableDropdown = ({ options, selected, onSelect, placeholder }: { options: string[], selected: string | undefined, onSelect: (value: string) => void, placeholder: string }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const filteredOptions = options.filter(opt => opt.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -114,7 +114,7 @@ const SearchableDropdown = ({ options, selected, onSelect, placeholder }) => {
         <div className="relative" onClick={e => e.stopPropagation()}>
             <button type="button" onClick={() => setIsOpen(!isOpen)} className="w-full p-2.5 border border-slate-300 rounded-lg text-left flex justify-between items-center bg-white hover:bg-slate-50 transition-colors focus:ring-2 focus:ring-rose-300 focus:border-rose-500">
                 <span className={selected ? 'text-slate-800' : 'text-slate-400'}>{selected || placeholder}</span>
-                <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                <ChevronDown className="w-4 h-4 text-slate-500" />
             </button>
             {isOpen && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-300 rounded-md shadow-lg z-10">
@@ -235,18 +235,26 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
         setIsSubmitting(true);
         setErrors({});
 
+        console.log("Attempting to create account with:", { 
+            email: accountData.email.trim(), 
+            password: accountData.password 
+        });
+
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, accountData.email, accountData.password);
+            const userCredential = await createUserWithEmailAndPassword(
+                auth, 
+                accountData.email.trim(),
+                accountData.password
+            );
             const user = userCredential.user;
 
-            // Create a shell profile document in Firestore immediately
             const shellProfile: ProfessionalProfile = {
                  ...defaultNewProfile,
                  id: user.uid,
                  email: user.email || '',
                  name: accountData.name,
                  isProfileComplete: false,
-                 specialty: 'Nail Artistry' // Default value
+                 specialty: 'Nail Artistry'
             };
 
             await setDoc(doc(db, "professionals", user.uid), shellProfile);
@@ -256,6 +264,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
             nextStep();
 
         } catch (error: any) {
+            console.error("Firebase Auth Error:", error);
             if (error.code === 'auth/email-already-in-use') {
                 setErrors({ email: 'This email address is already in use by another account.' });
             } else {
@@ -286,15 +295,13 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
     }
     
     const handleDoThisLater = () => {
-        // The shell profile is already created in handleCreateAccount
-        // We just need to trigger the onComplete with the partial data
         const partialProfile: ProfessionalProfile = {
              ...defaultNewProfile,
              id: accountData.id,
              name: accountData.name,
              email: accountData.email,
              isProfileComplete: false,
-             reviews: PROFILES[2].reviews, // Add sample reviews for incomplete profile
+             reviews: PROFILES[2].reviews,
         };
         onComplete(partialProfile);
     };
@@ -355,15 +362,15 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                 );
             case 2: // Confirmation Screen
                  return (
-                    <div className="text-center w-full max-w-md mx-auto">
-                        <Check className="w-20 h-20 text-green-500 mx-auto bg-green-100 rounded-full p-4" />
-                        <h2 className="text-3xl font-bold text-slate-800 mt-4">Account Created!</h2>
-                        <p className="text-slate-500 mt-1">What would you like to do next?</p>
-                        <div className="mt-8 space-y-3">
-                            <button onClick={nextStep} className="w-full bg-rose-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-600 transition-colors shadow-md hover:shadow-lg transform hover:scale-105">Start Profile Wizard</button>
-                            <button onClick={handleDoThisLater} className="w-full text-slate-600 font-semibold py-3 px-6 rounded-lg hover:bg-slate-200 transition-colors">I'll Do This Later</button>
-                        </div>
-                    </div>
+                     <div className="text-center w-full max-w-md mx-auto">
+                         <Check className="w-20 h-20 text-green-500 mx-auto bg-green-100 rounded-full p-4" />
+                         <h2 className="text-3xl font-bold text-slate-800 mt-4">Account Created!</h2>
+                         <p className="text-slate-500 mt-1">What would you like to do next?</p>
+                         <div className="mt-8 space-y-3">
+                             <button onClick={nextStep} className="w-full bg-rose-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-600 transition-colors shadow-md hover:shadow-lg transform hover:scale-105">Start Profile Wizard</button>
+                             <button onClick={handleDoThisLater} className="w-full text-slate-600 font-semibold py-3 px-6 rounded-lg hover:bg-slate-200 transition-colors">I'll Do This Later</button>
+                         </div>
+                     </div>
                  );
             case 3: // Location & Introduction
                 const handleTravelLocationToggle = (location: string) => {
@@ -371,16 +378,16 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                     const newLocations = current.includes(location) ? current.filter(l => l !== location) : [...current, location];
                     handleProfileChange('travelPolicy', { locations: newLocations });
                 };
-                 return (
+                return (
                     <div className="w-full max-w-4xl mx-auto">
                         <StepHeader title="Location & Introduction" subtitle="Help clients find and get to know you." />
                         <div className="bg-white p-8 rounded-xl shadow-md border border-slate-200 grid grid-cols-1 lg:grid-cols-2 gap-8">
                             {/* Left Column */}
                             <div className="space-y-6">
-                                 <div>
+                                  <div>
                                     <label htmlFor="bio" className="block text-sm font-medium text-slate-700 mb-1">Bio / Introduction</label>
                                     <textarea id="bio" value={profileData.bio || ''} onChange={(e) => handleProfileChange('bio', e.target.value)} rows={5} className={inputStyles} placeholder="Tell clients a little about yourself, your passion, and your work..."></textarea>
-                                     <button 
+                                      <button 
                                         onClick={handleGenerateBio} 
                                         disabled={isGeneratingBio}
                                         className="mt-2 w-full flex items-center justify-center gap-2 text-sm font-semibold text-rose-500 p-2 border-2 border-dashed rounded-lg hover:bg-rose-50 hover:border-rose-400 transition-colors disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-wait">
@@ -392,9 +399,9 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                                          ) : (
                                             <><Sparkles size={16}/> Generate with AI</>
                                          )}
-                                     </button>
-                                </div>
-                                <div>
+                                      </button>
+                                  </div>
+                                  <div>
                                     <label className="block text-sm font-medium text-slate-700 mb-2">Current Status</label>
                                     <div className="flex items-center justify-between bg-slate-100 p-2 rounded-lg">
                                         <span className={`font-semibold transition-colors ${profileData.availability === 'Available Now' ? 'text-green-600' : 'text-slate-500'}`}>
@@ -412,7 +419,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                                             />
                                         </button>
                                     </div>
-                                </div>
+                                  </div>
                             </div>
 
                              {/* Right Column */}
@@ -436,7 +443,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                                         )})}
                                     </div>
                                 </div>
-                            </div>
+                             </div>
                         </div>
                     </div>
                 );
@@ -461,14 +468,14 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                             <div>
                                <h3 className="font-bold text-slate-800 text-lg mb-3 flex items-center gap-2"><Star size={20} className="text-rose-500" />Select Your Main Services</h3>
                                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                   {PREDEFINED_SERVICES.map(service => {
-                                       const isSelected = profileData.predefinedServices?.includes(service.name);
-                                       return (
-                                        <button key={service.name} onClick={() => handlePredefinedServiceToggle(service.name)} className={`relative p-3 text-left border-2 rounded-lg transition-all transform hover:-translate-y-1 ${isSelected ? 'border-rose-500 bg-rose-50' : 'bg-white hover:border-slate-400'}`}>
+                                  {PREDEFINED_SERVICES.map(service => {
+                                      const isSelected = profileData.predefinedServices?.includes(service.name);
+                                      return (
+                                       <button key={service.name} onClick={() => handlePredefinedServiceToggle(service.name)} className={`relative p-3 text-left border-2 rounded-lg transition-all transform hover:-translate-y-1 ${isSelected ? 'border-rose-500 bg-rose-50' : 'bg-white hover:border-slate-400'}`}>
                                            {isSelected && <div className="absolute top-2 right-2 bg-rose-500 text-white rounded-full h-5 w-5 flex items-center justify-center"><Check size={12}/></div>}
                                            <div className="font-bold text-sm text-slate-800">{service.name}</div><div className="text-xs text-slate-500">{service.category}</div><div className="text-sm font-semibold text-rose-600 mt-2">€{service.price}</div>
                                        </button>
-                                   )})}
+                                  )})}
                                </div>
                             </div>
                             <div>
@@ -542,7 +549,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                     handleProfileChange('profileEmbedUrl', currentPin === url ? undefined : url);
                 };
                 
-                const InstructionStep = ({ icon: Icon, title, description }) => (
+                const InstructionStep = ({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) => (
                     <div className="flex items-start space-x-4">
                         <div className="flex-shrink-0 w-10 h-10 bg-rose-100 text-rose-500 rounded-lg flex items-center justify-center">
                             <Icon size={20} />
@@ -678,7 +685,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                     name: accountData.name,
                     email: accountData.email,
                     services: allServices,
-                    isProfileComplete: true, // For preview purposes
+                    isProfileComplete: true, 
                     reviews: PROFILES[0].reviews.length > 0 ? PROFILES[0].reviews : [{ author: 'Sample', rating: 5, comment: 'Looks great!' }],
                     bio: profileData.bio || "This is a sample bio. Go back and add your own!",
                     profileImage: profileData.profileImage || defaultNewProfile.profileImage,
@@ -686,7 +693,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                     specialty: profileData.specialty || "Nail Artistry"
                 };
 
-                 return (
+                return (
                     <div className="w-full max-w-5xl mx-auto">
                         <StepHeader title="Preview Your Profile" subtitle="This is how clients will see you. Go back and edit anything you need." />
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -719,20 +726,20 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
 
                             {/* Right Column: Previews */}
                             <div className="lg:col-span-3 space-y-6">
-                                 <div className="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                  <div className="bg-white p-6 rounded-xl shadow-md border border-slate-200">
                                     <h3 className="font-bold text-lg text-slate-800 mb-2 text-center">Card Preview</h3>
                                     <p className="text-center text-sm text-slate-500 mb-4">This is how your profile appears in search results.</p>
                                     <div className="w-[300px] h-[430px] mx-auto">
                                        <ProfileCard profile={previewProfile} onView={() => setIsPreviewModalOpen(true)} />
                                     </div>
-                                 </div>
-                                 <div className="bg-white p-6 rounded-xl shadow-md border border-slate-200 text-center">
+                                  </div>
+                                  <div className="bg-white p-6 rounded-xl shadow-md border border-slate-200 text-center">
                                     <h3 className="font-bold text-lg text-slate-800">Full Profile Preview</h3>
                                      <p className="text-sm text-slate-500 mt-1 mb-4">See all the details clients will view.</p>
                                      <button onClick={() => setIsPreviewModalOpen(true)} className="w-full bg-slate-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-800 transition-colors">
                                         View Full Profile Details
                                      </button>
-                                 </div>
+                                  </div>
                             </div>
                         </div>
                         
@@ -758,7 +765,7 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                             <button className="w-full text-slate-600 font-semibold py-3 px-6 rounded-lg hover:bg-slate-200/70 transition-colors">Share My Profile</button>
                         </div>
                     </div>
-                 );
+                  );
             default: return null;
         }
     };
@@ -783,19 +790,19 @@ const SignUpWizard: React.FC<SignUpWizardProps> = ({ onComplete, onNavigateToLog
                            {canGoPrev ? <button onClick={prevStep} className="font-semibold text-slate-600 hover:text-slate-900 py-2 px-4 rounded-lg hover:bg-slate-200/70 transition-colors">Previous</button> : <div/>}
                            {currentStep.step !== 6 ? (
                                <button 
-                                    onClick={handleNextClick} 
-                                    disabled={(currentStep.step === 3 && !profileData.location) || isSubmitting}
-                                    className="bg-rose-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-rose-600 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center min-w-[150px]">
-                                    {isSubmitting ? (
-                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                    ) : (
-                                        currentStep.step === 1 ? 'Create Account' : currentStep.step === 5 ? 'Finish & View Preview' : 'Next'
-                                    )}
+                                   onClick={handleNextClick} 
+                                   disabled={(currentStep.step === 3 && !profileData.location) || isSubmitting}
+                                   className="bg-rose-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-rose-600 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed shadow-md hover:shadow-lg transform hover:scale-105 flex items-center justify-center min-w-[150px]">
+                                   {isSubmitting ? (
+                                       <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                   ) : (
+                                       currentStep.step === 1 ? 'Create Account' : currentStep.step === 5 ? 'Finish & View Preview' : 'Next'
+                                   )}
                                </button>
                            ) : (
                                 <button onClick={nextStep} className="bg-green-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition-colors shadow-md hover:shadow-lg transform hover:scale-105">Complete Profile</button>
                            )}
-                       </div>
+                        </div>
                    )}
                 </div>
             </div>
